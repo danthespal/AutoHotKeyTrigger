@@ -36,7 +36,7 @@
       <AhkOutputs Include="$(OutDir)$(TargetName)$(TargetExt);$(OutDir)System.Linq.Dynamic.Core.dll;$(OutDir)StatusEffectGroup.json" />
     </ItemGroup>
     <Copy SourceFiles="@(AhkOutputs)"
-          DestinationFolder="$(OriathHubDir)Plugins\$(AssemblyName)"
+          DestinationFolder="$(OriathHubDir)\Plugins\$(AssemblyName)"
           SkipUnchangedFiles="true" />
   </Target>
 
