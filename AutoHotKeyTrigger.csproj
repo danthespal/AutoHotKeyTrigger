@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <!-- net10.0-windows to match the host; its APIs are [SupportedOSPlatform("windows")], so a
+         plain net10.0 plugin raises CA1416 on every host call. -->
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <Nullable>enable</Nullable>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Copy NuGet runtime deps (System.Linq.Dynamic.Core) into output so the plugin can load them. -->
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      Builds against the OriathHub.Sdk package (ImGui.NET, Newtonsoft.Json,
+      ClickableTransparentOverlay and Coroutine come transitively).
+      OriathHub.Sdk must be available from a configured NuGet source.
+    -->
+    <PackageReference Include="OriathHub.Sdk" Version="$(OriathHubSdkVersion)" />
+    <!-- Expression compiler for user-authored DynamicCondition rules (plugin-local). -->
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="StatusEffectGroup.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <!-- Deploy the plugin DLL (+ its non-SDK dependency) into the running host's Plugins/ folder. Pass -p:OriathHubDir="<path>\" at build time. -->
+  <Target Name="CopyToHostPluginsDir" AfterTargets="Build" Condition="'$(OriathHubDir)' != ''">
+    <ItemGroup>
+      <AhkOutputs Include="$(OutDir)$(TargetName)$(TargetExt);$(OutDir)System.Linq.Dynamic.Core.dll;$(OutDir)StatusEffectGroup.json" />
+    </ItemGroup>
+    <Copy SourceFiles="@(AhkOutputs)"
+          DestinationFolder="$(OriathHubDir)Plugins\$(AssemblyName)"
+          SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>
