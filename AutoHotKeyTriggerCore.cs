@@ -26,7 +26,7 @@ namespace OriathHub.Plugins.AutoHotKeyTrigger
         public override string Name => "Auto HotKey Trigger";
 
         /// <inheritdoc />
-        public override string Description => "Presses keys (flasks/skills) when user-defined conditions are met, plus an optional AutoQuit safety.";
+        public override string Description => "Presses keys (flasks / skills) when user-defined conditions are met, plus an optional AutoQuit safety.";
 
         private AutoHotKeyTriggerSettings Settings = new();
 
