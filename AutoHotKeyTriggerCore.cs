@@ -28,6 +28,12 @@ namespace OriathHub.Plugins.AutoHotKeyTrigger
         /// <inheritdoc />
         public override string Description => "Presses keys (flasks / skills) when user-defined conditions are met, plus an optional AutoQuit safety.";
 
+        /// <inheritdoc />
+        public override string Author => "OriathHub";
+
+        /// <inheritdoc />
+        public override string Version => "1.0.0";
+
         private AutoHotKeyTriggerSettings Settings = new();
 
         private readonly string warningMsg = "The current condition you have put for AutoQuit is yielding true.\n" +
